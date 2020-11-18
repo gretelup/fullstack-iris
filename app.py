@@ -3,6 +3,7 @@ import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
+import numpy as np
 
 # Flask Setup
 app = Flask(__name__)
@@ -20,21 +21,37 @@ def home():
 
     return render_template("index.html")
 
-@app.route('/sepal-length')
-def sepal_length():
+@app.route("/sepal-length/")
+@app.route("/sepal-length/<species>")
+def sepal_length(species=None):
     
-    # Query for all sepal-lengths
+    # Open sqlalchemy session
     session = Session(engine)
-    results = session.query(Iris.Species, Iris.SepalLengthCm).all()
+    
+    # If there is no selection, return all sepal-lengths in dictionary form
+    if not species:
+        # Query for all sepal-lengths
+        results = session.query(Iris.Species, Iris.SepalLengthCm).all()
 
-    # Parse results
-    results_dict = {"Iris-virginica": [], "Iris-versicolor": [], "Iris-setosa": []}
-    for species, length in results:
-        results_dict[species].append(float(length))  
+        # Parse results
+        results_dict = {"Iris-virginica": [], "Iris-versicolor": [], "Iris-setosa": []}
+        for species, length in results:
+            results_dict[species].append(float(length))  
+        
+        session.close()
+        return jsonify(results_dict)
     
-    session.close()
-    
-    return jsonify(results_dict)
+    else:
+        # Query for sepal lengths for just selected iris
+        results = session.query(Iris.SepalLengthCm).\
+            filter(Iris.Species == species).all()
+        
+        # Parse results
+        results_list = [float(num) for num in np.ravel(results)]
+
+        session.close()
+        return jsonify(results_list)
+
 
 
 if __name__ == "__main__":
