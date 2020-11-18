@@ -1,14 +1,12 @@
 d3.json("/sepal-length").then((data) => {
-    console.log(data);
 
+    // Parse response object into arrays of sepal length for each species
     var setosa = data["Iris-setosa"];
     var versicolor = data["Iris-versicolor"];
     var virginica = data["Iris-virginica"];
-    console.log(setosa);
-    console.log(versicolor);
-    console.log(virginica);
 
-     var trace1 = {
+    // Create trace for each species
+    var trace1 = {
         x: setosa,
         type: "histogram",
         opacity: 0.7,
@@ -17,6 +15,7 @@ d3.json("/sepal-length").then((data) => {
         },
         name: "Iris-setosa"
     };
+
     var trace2 = {
         x: versicolor,
         type: "histogram",
@@ -38,14 +37,23 @@ d3.json("/sepal-length").then((data) => {
     };
 
     var data = [trace1, trace2, trace3];
+    
     var layout = {
-        bargap: 0.01, 
-        bargroupgap: 0.01, 
-        barmode: "overlay", 
-        title: "Sepal Length", 
-        xaxis: {title: "Length in cm"}, 
-        yaxis: {title: "Count"}
-      };
+        bargap: 0.01,
+        bargroupgap: 0.01,
+        barmode: "overlay",
+        title: "Sepal Length",
+        xaxis: {
+            title: "Length in cm"
+        },
+        yaxis: {
+            title: "Count"
+        }
+    };
 
-    Plotly.newPlot('hist', data, layout);
+    var config = {
+        responsive: true
+    }
+
+    Plotly.newPlot('hist', data, layout, config);
 });
