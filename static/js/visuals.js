@@ -1,59 +1,129 @@
-d3.json("/sepal-length").then((data) => {
+function optionChanged(selection) {
+    console.log(selection);
+    if (selection === "all") {
+        init();
+    } else {
+        d3.json("/sepal-length").then((response) => {
+            switch (selection) {
+                case "Iris-setosa":
+                    var trace = {
+                        x: response[selection],
+                        type: "histogram",
+                        opacity: 0.7,
+                        marker: {
+                            color: '#ffa6c1',
+                        },
+                        name: "Iris-setosa"
+                    };
+                    break;
+                case "Iris-versicolor":
+                    var trace = {
+                        x: response[selection],
+                        type: "histogram",
+                        opacity: 0.6,
+                        marker: {
+                            color: '#92daff',
+                        },
+                        name: "Iris-versicolor"
+                    };
+                    break;
+                case "Iris-virginica":
+                    var trace = {
+                        x: response[selection],
+                        type: "histogram",
+                        opacity: 0.5,
+                        marker: {
+                            color: '#46c45a',
+                        },
+                        name: "Iris-virginica"
+                    };
+                    break;
+            }
 
-    // Parse response object into arrays of sepal length for each species
-    var setosa = data["Iris-setosa"];
-    var versicolor = data["Iris-versicolor"];
-    var virginica = data["Iris-virginica"];
+            var data = [trace];
 
-    // Create trace for each species
-    var trace1 = {
-        x: setosa,
-        type: "histogram",
-        opacity: 0.7,
-        marker: {
-            color: '#ffa6c1',
-        },
-        name: "Iris-setosa"
-    };
+            var layout = {
+                bargap: 0.01,
+                bargroupgap: 0.01,
+                barmode: "overlay",
+                title: "Sepal Length",
+                xaxis: {
+                    title: "Length in cm"
+                },
+                yaxis: {
+                    title: "Count"
+                }
+            };
 
-    var trace2 = {
-        x: versicolor,
-        type: "histogram",
-        opacity: 0.6,
-        marker: {
-            color: '#92daff',
-        },
-        name: "Iris-versicolor"
-    };
+            var config = {
+                responsive: true
+            }
 
-    var trace3 = {
-        x: virginica,
-        type: "histogram",
-        opacity: 0.5,
-        marker: {
-            color: '#46c45a',
-        },
-        name: "Iris-virginica"
-    };
-
-    var data = [trace1, trace2, trace3];
-    
-    var layout = {
-        bargap: 0.01,
-        bargroupgap: 0.01,
-        barmode: "overlay",
-        title: "Sepal Length",
-        xaxis: {
-            title: "Length in cm"
-        },
-        yaxis: {
-            title: "Count"
-        }
-    };
-
-    var config = {
-        responsive: true
+            Plotly.newPlot('hist', data, layout, config);
+        });
     }
+}
 
-    Plotly.newPlot('hist', data, layout, config);
-});
+function init() {
+    d3.json("/sepal-length").then((response) => {
+
+        // Parse response object into arrays of sepal length for each species
+        var setosa = response["Iris-setosa"];
+        var versicolor = response["Iris-versicolor"];
+        var virginica = response["Iris-virginica"];
+
+        // Create trace for each species
+        var trace1 = {
+            x: setosa,
+            type: "histogram",
+            opacity: 0.7,
+            marker: {
+                color: '#ffa6c1',
+            },
+            name: "Iris-setosa"
+        };
+
+        var trace2 = {
+            x: versicolor,
+            type: "histogram",
+            opacity: 0.6,
+            marker: {
+                color: '#92daff',
+            },
+            name: "Iris-versicolor"
+        };
+
+        var trace3 = {
+            x: virginica,
+            type: "histogram",
+            opacity: 0.5,
+            marker: {
+                color: '#46c45a',
+            },
+            name: "Iris-virginica"
+        };
+
+        var data = [trace1, trace2, trace3];
+
+        var layout = {
+            bargap: 0.01,
+            bargroupgap: 0.01,
+            barmode: "overlay",
+            title: "Sepal Length",
+            xaxis: {
+                title: "Length in cm"
+            },
+            yaxis: {
+                title: "Count"
+            }
+        };
+
+        var config = {
+            responsive: true
+        }
+
+        Plotly.newPlot('hist', data, layout, config);
+    });
+}
+
+init();
