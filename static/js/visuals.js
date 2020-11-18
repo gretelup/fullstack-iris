@@ -3,12 +3,12 @@ function optionChanged(selection) {
   if (selection === "all") {
     init();
   } else {
-    d3.json("/sepal-length").then((response) => {
+    d3.json(`/sepal-length/${selection}`).then((response) => {
       switch (selection) {
         // Set trace to data for selected iris
         case "Iris-setosa":
           var trace = {
-            x: response[selection],
+            x: response,
             type: "histogram",
             opacity: 0.7,
             marker: {
@@ -19,7 +19,7 @@ function optionChanged(selection) {
           break;
         case "Iris-versicolor":
           var trace = {
-            x: response[selection],
+            x: response,
             type: "histogram",
             opacity: 0.6,
             marker: {
@@ -30,7 +30,7 @@ function optionChanged(selection) {
           break;
         case "Iris-virginica":
           var trace = {
-            x: response[selection],
+            x: response,
             type: "histogram",
             opacity: 0.5,
             marker: {
