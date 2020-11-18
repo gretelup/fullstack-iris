@@ -11,7 +11,7 @@ Video instructions on how to deploy app can be found here: [https://tinyurl.com/
 
 For simplicity's sake, these instructions are for a flask app simply called `app.py`. You may name your app something else and simply update the appropriate areas.
 
-1. Structure your repository to look something like this:
+1. Structure your repository to look something like this:<br>
 ![File Tree](static/images/tree.png)
   * *N.B.* You can have extra files, and the structure does not need to match exactly, but you **must** have `app.py` at the top level.
 2. Create new anaconda environment:
