@@ -32,6 +32,8 @@ def sepal_length():
     for species, length in results:
         results_dict[species].append(float(length))  
     
+    session.close()
+    
     return jsonify(results_dict)
 
 
