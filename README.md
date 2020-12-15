@@ -5,7 +5,71 @@ A link to the deployed app can be found here: [https://iris-deploy-gu.herokuapp.
 
 Video instructions on how to deploy app can be found here: [https://tinyurl.com/y3qn8waz](https://tinyurl.com/y3qn8waz)
 
-## Instructions
+## App Development
+
+#### Step 1: Database Creation
+
+For simple *free* Heroku full-stack Flask applications, the best databases to use are sqlite and PostgreSQL databases. These instructions do not cover the database creation process. It proceeds assuming one of these two types of databases have been created.
+
+#### Step 2: Plan your javascript visualizations
+
+Before you develop your Flask routes, you must determine the data necessary to create your visualizations and the format that data must be in. You must also plan for what type of interactivity you want for these visualizations.
+
+In this example application, I used plotly to create a simple histogram of the sepal-lengths for each type of iris species in my database. The interactivity is a dropdown menu that changes the histogram to display the a single selected species or all of the species.
+
+1. Refer to documentation to determine what data is necessary:  [Plotly's Overlaid Histogram Code](https://plotly.com/javascript/histograms/#overlaid-histgram):
+
+	``` 
+	var x1 = [];
+	var x2 = [];
+	for (var i = 1; i < 500; i++)
+	{
+		k = Math.random();
+		x1.push(Math.random() + 1);
+		x2.push(Math.random() + 1.1);
+	}
+	
+	var trace1 = {
+	  x: x1,
+	  type: "histogram",
+	  opacity: 0.5,
+	  marker: {
+	     color: 'green',
+	  },
+	};
+	var trace2 = {
+	  x: x2,
+	  type: "histogram",
+	  opacity: 0.6,
+	  marker: {
+	     color: 'red',
+	  },
+	};
+	
+	var data = [trace1, trace2];
+	var layout = {barmode: "overlay"};
+	Plotly.newPlot('myDiv', data, layout); 
+	```
+
+2. Determine best format for the data:
+  * The histogram requires an array of sepal-lengths for each species.
+  * For the histogram that plots all of the species, the best format of the data would be:
+	  
+	  ```
+	  {
+		    species1: [sepal-lengths],
+		    species2: [sepal-lengths],
+		    species3: [sepal-lengths]
+	   }
+	   ```
+	   
+   * For the histogram plotting a single species, the best format would be a simple array for just that species.
+
+   
+#### Step 3: Plan your Flask routes
+In a jupyter notebook, develop Flask REST API routes for the visualizations. Refer to [flask_routes.ipynb](flask_routes.ipynb) notebook.
+
+## Deploying to Heroku
 
 ### Part 1: Prepping your repository
 
