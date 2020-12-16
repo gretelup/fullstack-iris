@@ -3,8 +3,6 @@ This is a simple full-stack flask app created using the a sqlite database of the
 
 A link to the deployed app can be found here: [https://iris-deploy-gu.herokuapp.com/](https://iris-deploy-gu.herokuapp.com/)
 
-Video instructions on how to deploy app can be found here: [https://tinyurl.com/y3qn8waz](https://tinyurl.com/y3qn8waz)
-
 ## App Development
 
 #### Step 1: Database Creation
