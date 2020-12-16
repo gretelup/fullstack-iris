@@ -11,11 +11,15 @@ Video instructions on how to deploy app can be found here: [https://tinyurl.com/
 
 For simple *free* Heroku full-stack Flask applications, the best databases to use are sqlite and PostgreSQL databases. These instructions do not cover the database creation process. It proceeds assuming one of these two types of databases have been created.
 
-#### Step 2: Plan your javascript visualizations
+#### Step 2: Plan your javascript visualizations and create html
 
-Before you develop your Flask routes, you must determine the data necessary to create your visualizations and the format that data must be in. You must also plan for what type of interactivity you want for these visualizations.
+These instructions do not cover html development. To display my visual, I created a simple html page with a `<div>` for the histogram and a dropdown menu for the species.
+
+Before you develop your Flask routes, you must determine the data necessary to create your visualizations and the format that data must be in when you jsonify it. You must also plan for what type of interactivity you want for these visualizations.
 
 In this example application, I used plotly to create a simple histogram of the sepal-lengths for each type of iris species in my database. The interactivity is a dropdown menu that changes the histogram to display the a single selected species or all of the species.
+
+
 
 1. Refer to documentation to determine what data is necessary:  [Plotly's Overlaid Histogram Code](https://plotly.com/javascript/histograms/#overlaid-histgram):
 
@@ -51,7 +55,7 @@ In this example application, I used plotly to create a simple histogram of the s
 	Plotly.newPlot('myDiv', data, layout); 
 	```
 
-2. Determine best format for the data:
+2. Determine best format for the jsonified data:
   * The histogram requires an array of sepal-lengths for each species.
   * For the histogram that plots all of the species, the best format of the data would be:
 	  
@@ -67,7 +71,69 @@ In this example application, I used plotly to create a simple histogram of the s
 
    
 #### Step 3: Plan your Flask routes
-In a jupyter notebook, develop Flask REST API routes for the visualizations. Refer to [flask_routes.ipynb](flask_routes.ipynb) notebook.
+In a jupyter notebook, develop Flask REST API routes for the visualizations (refer to [flask_routes.ipynb](flask_routes.ipynb)).
+
+1. Connect to the database and query for *just* the information needed for your route. I have used SQLAlchemy ORM, but you may use any python library to query the database.
+
+	```
+	session = Session(engine)
+	results = session.query(Iris.Species, Iris.SepalLengthCm).all()
+	```
+2. Parse the results and put into the correct format.
+
+	```
+	results_dict = {"Iris-virginica": [], 
+	                "Iris-versicolor": [], 
+	                "Iris-setosa": []}
+	
+	for species, length in results:
+	    results_dict[species].append(float(length))
+	```
+
+#### Step 4: Create your Flask app
+
+Referring to [Flask Documentation](https://flask.palletsprojects.com/en/1.1.x/quickstart/#) as necessary,  create your basic flask app with routes for your visualizations, using the code from your jupyter notebook (refer to [app.py](app.py)).
+
+
+```
+@app.route("/sepal-length/")
+@app.route("/sepal-length/<species>")
+def sepal_length(species=None):
+    
+    # Open sqlalchemy session
+    session = Session(engine)
+    
+    # If there is no selection, return all lengths as dictionary
+    if not species:
+        # Query for all sepal-lengths
+        results = session.query(Iris.Species, Iris.SepalLengthCm).all()
+
+        # Parse results
+        results_dict = {"Iris-virginica": [], 
+        					"Iris-versicolor": [], 
+        					"Iris-setosa": []}
+        for species, length in results:
+            results_dict[species].append(float(length))  
+        
+        session.close()
+        return jsonify(results_dict)
+```
+
+#### Step 5: Create your javascript visualizations
+In this example, I used d3 and plotly to read the data and create the visualizations, but you may use alternate libraries.
+
+1. Use d3.json to read the data, and then parse it to be used in the plotly code:
+ 
+	```
+	d3.json("/sepal-length").then((response) => {
+
+	    // Parse response object into arrays for each species
+	    var setosa = response["Iris-setosa"];
+	    var versicolor = response["Iris-versicolor"];
+	    var virginica = response["Iris-virginica"];
+    
+    ```
+2. Now that the data is in the correct form, you can simply copy and paste the names of the array into the plotly histogram code.
 
 ## Deploying to Heroku
 
