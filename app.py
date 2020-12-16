@@ -28,13 +28,15 @@ def sepal_length(species=None):
     # Open sqlalchemy session
     session = Session(engine)
     
-    # If there is no selection, return all sepal-lengths in dictionary form
+    # If there is no selection, return all sepal-lengths as dictionary
     if not species:
         # Query for all sepal-lengths
         results = session.query(Iris.Species, Iris.SepalLengthCm).all()
 
         # Parse results
-        results_dict = {"Iris-virginica": [], "Iris-versicolor": [], "Iris-setosa": []}
+        results_dict = {"Iris-virginica": [], 
+                        "Iris-versicolor": [], 
+                        "Iris-setosa": []}
         for species, length in results:
             results_dict[species].append(float(length))  
         
