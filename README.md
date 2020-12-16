@@ -110,8 +110,8 @@ def sepal_length(species=None):
 
         # Parse results
         results_dict = {"Iris-virginica": [], 
-        					"Iris-versicolor": [], 
-        					"Iris-setosa": []}
+        		"Iris-versicolor": [], 
+        		"Iris-setosa": []}
         for species, length in results:
             results_dict[species].append(float(length))  
         
@@ -183,7 +183,7 @@ For simplicity's sake, these instructions are for a flask app simply called `app
 3. In the "Deployment method" section, select GitHub.
 ![Deployment Method](static/images/GH_deploy.png)
 4.  In the "Connect to GiHub" section, click the "Connect to GitHub" button.
-![GitHub Connection](static/images/GH_connect.png)
+![GitHub Connection](static/images/GH_Connect.png)
 5. Authorize Heroku to access your GitHub and select your repository.
 6. Navigate to the "Manual deploy" section and click "Deploy Branch"
 ![Manual Deploy](static/images/Manual_deploy.png)
