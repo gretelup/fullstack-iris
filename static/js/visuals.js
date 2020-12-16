@@ -68,7 +68,7 @@ function optionChanged(selection) {
 function init() {
   d3.json("/sepal-length").then((response) => {
 
-    // Parse response object into arrays of sepal length for each species
+    // Parse response object into arrays for each species
     var setosa = response["Iris-setosa"];
     var versicolor = response["Iris-versicolor"];
     var virginica = response["Iris-virginica"];
