@@ -54,8 +54,8 @@ In this example application, I used plotly to create a simple histogram of the s
 	```
 
 2. Determine best format for the jsonified data:
-  * The histogram requires an array of sepal-lengths for each species.
-  * For the histogram that plots all of the species, the best format of the data would be:
+    * The histogram requires an array of sepal-lengths for each species.
+    * For the histogram that plots all of the species, the best format of the data would be:
 	  
 	  ```
 	  {
@@ -65,7 +65,7 @@ In this example application, I used plotly to create a simple histogram of the s
 	   }
 	   ```
 	   
-   * For the histogram plotting a single species, the best format would be a simple array for just that species.
+     * For the histogram plotting a single species, the best format would be a simple array for just that species.
 
    
 #### Step 3: Plan your Flask routes
