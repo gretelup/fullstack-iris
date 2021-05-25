@@ -3,6 +3,13 @@ This is a simple full-stack flask app created using the a sqlite database of the
 
 A link to the deployed app can be found here: [https://iris-deploy-gu.herokuapp.com/](https://iris-deploy-gu.herokuapp.com/)
 
+## Table of Contents
+
+* [App Development](#app-development)
+* [Heroku Deployment](#heroku-deployment)
+  * [Prepping Your Repository](#part-1-prepping-your-repository)
+  * [Creating Your Heroku App](#part-2-creating-your-heroku-app)
+
 ## App Development
 
 #### Step 1: Database Creation
@@ -133,9 +140,9 @@ In this example, I used d3 and plotly to read the data and create the visualizat
     ```
 2. Now that the data is in the correct form, you can simply copy and paste the names of the array into the plotly histogram code.
 
-## Deploying to Heroku
+## Heroku Deployment
 
-### Part 1: Prepping your repository
+### Part 1: Prepping Your Repository
 
 For simplicity's sake, these instructions are for a flask app simply called `app.py`. You may name your app something else and simply update the appropriate areas.
 
@@ -173,7 +180,7 @@ For simplicity's sake, these instructions are for a flask app simply called `app
 10. Commit these changes to the master/main branch of your repository.
 	* *GitHub has renamed its "master" branch to "main" recently. Use whatever your production branch is.*
 
-### Part 2: Creating your Heroku App
+### Part 2: Creating Your Heroku App
 
 1. Navigate to [www.heroku.com](www.heroku.com) and create an account if you don't already have one.
 2. On main screen, select “Create New App.”
